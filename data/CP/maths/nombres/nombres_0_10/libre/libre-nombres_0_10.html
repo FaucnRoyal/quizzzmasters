@@ -42,7 +42,7 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background: #d69302;
+            background: #6329bb;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -57,7 +57,7 @@
         }
         
         .back-button:hover {
-            background: #d69302;
+            background: #6329bb;
             transform: translateY(-2px);
         }
         
@@ -277,108 +277,99 @@
     </div>
 
     <script>
-        const questions = [
-            {
-                question: "Écris le nombre qui vient après 5 :",
-                answers: ["6", "six"],
-                hint: "Compte : 1, 2, 3, 4, 5, ..."
-            },
-            {
-                question: "Écris en lettres le nombre 7 :",
-                answers: ["sept"],
-                hint: "C'est un nombre entre six et huit"
-            },
-            {
-                question: "Combien de doigts as-tu sur tes deux mains ?",
-                answers: ["10", "dix"],
-                hint: "Compte tous tes doigts !"
-            },
-            {
-                question: "Que signifie le nombre 0 ?",
-                answers: ["rien", "vide", "aucun", "zéro"],
-                hint: "Quand il n'y a pas d'objets dans une boîte..."
-            },
-            {
-                question: "Écris en lettres le nombre 3 :",
-                answers: ["trois"],
-                hint: "Ce nombre vient après deux"
-            },
-            {
-                question: "Quel est le plus petit nombre de 0 à 10 ?",
-                answers: ["0", "zéro"],
-                hint: "C'est le nombre qui signifie 'rien'"
-            },
-            {
-                question: "Écris en lettres le nombre 1 :",
-                answers: ["un"],
-                hint: "C'est le premier nombre après zéro"
-            },
-            {
-                question: "Combien font 4 + 1 ?",
-                answers: ["5", "cinq"],
-                hint: "Compte : 4 et encore 1 de plus"
-            },
-            {
-                question: "Écris le nombre qui vient avant 9 :",
-                answers: ["8", "huit"],
-                hint: "Compte à l'envers : 10, 9, ..."
-            },
-            {
-                question: "Écris en lettres le nombre 10 :",
-                answers: ["dix"],
-                hint: "C'est le plus grand nombre de la leçon"
-            },
-            {
-                question: "Combien de doigts as-tu sur une main ?",
-                answers: ["5", "cinq"],
-                hint: "Regarde ta main et compte !"
-            },
-            {
-                question: "Écris en lettres le nombre 2 :",
-                answers: ["deux"],
-                hint: "C'est le nombre qui vient après un"
-            },
-            {
-                question: "Quel nombre vient entre 3 et 5 ?",
-                answers: ["4", "quatre"],
-                hint: "Compte : 3, ?, 5"
-            },
-            {
-                question: "Écris en lettres le nombre 6 :",
-                answers: ["six"],
-                hint: "C'est le nombre qui vient après cinq"
-            },
-            {
-                question: "Combien font 2 + 3 ?",
-                answers: ["5", "cinq"],
-                hint: "Compte : 2 et encore 3 de plus"
-            },
-            {
-                question: "Écris en lettres le nombre 4 :",
-                answers: ["quatre"],
-                hint: "C'est le nombre qui vient après trois"
-            },
-            {
-                question: "Quel est le plus grand nombre de 0 à 10 ?",
-                answers: ["10", "dix"],
-                hint: "C'est le dernier nombre de la leçon"
-            },
-            {
-                question: "Écris en lettres le nombre 8 :",
-                answers: ["huit"],
-                hint: "C'est le nombre qui vient après sept"
-            },
-            {
-                question: "Combien font 6 - 1 ?",
-                answers: ["5", "cinq"],
-                hint: "Enlève 1 à 6"
-            },
-            {
-                question: "Écris en lettres le nombre 9 :",
-                answers: ["neuf"],
-                hint: "C'est le nombre qui vient avant dix"
-            }
-        ];
+        const freeQuestions2 = [
+    {
+        question: "Combien de canards y a-t-il dans l’image ?",
+        answer: "5",
+        image: "images/quiz/canards5.png"
+    },
+    {
+        question: "Quelle nombre est après le un",
+        answer: "1",
+    },
+    {
+        question: "Combien de main a une personne ?",
+        answer: "2",
+    },
+    {
+        question: "Combien de voitures vois-tu ?",
+        answer: "3",
+        image: "images/quiz/voitures3.png"
+    },
+    {
+        question: "Quel chiffre est représenté en lettres ici ?",
+        answer: "7",
+        image: "images/quiz/lettres_sept.png"
+    },
+    {
+        question: "Combien de crayons sont posés ?",
+        answer: "10",
+        image: "images/quiz/crayons10.png"
+    },
+    {
+        question: "Quelle nombre est entre 7 et 9 ?",
+        answer: "8",
+    },
+    {
+        question: "Quel est le chiffre avant 10 ?",
+        answer: "9",
+    },
+    {
+        question: "Écris en lettres le chiffre 2.",
+        answer: "deux",
+    },
+    {
+        question: "Combien de part gâteaux y a-t-il ?",
+        answer: "6",
+        image: "images/quiz/gateaux6.png"
+    },
+    {
+        question: "Combien de doigts à une main ?",
+        answer: "5",
+    },
+    {
+        question: "Combien y a-t-il de jouets ?",
+        answer: "7",
+        image: "images/quiz/jouets7.png"
+    },
+    {
+        question: "Combien de jour compte une semaine ?",
+        answer: "7",
+    },
+    {
+        question: "Combien de poissons rouges vois-tu ?",
+        answer: "2",
+        image: "images/quiz/poissons2.png"
+    },
+    {
+        question: "Combien d’assiettes sont posées ?",
+        answer: "8",
+        image: "images/quiz/assiettes8.png"
+    },
+    {
+        question: "Quel chiffre vient juste après 2 ?",
+        answer: "3",
+    },
+    {
+        question: "Écris en lettres le chiffre 0.",
+        answer: "zéro",
+    },
+    {
+        question: "Combien de coeurs roses vois-tu ?",
+        answer: "4",
+        image: "images/quiz/coeurs4.png"
+    },
+    {
+        question: "Quel chiffre vient juste avant 6 ?",
+        answer: "5",
+    },
+    {
+        question: "Combien de fruits sont dessinés ?",
+        answer: "9",
+        image: "images/quiz/fruits9.png"
+    }
+];
+
 
         let currentQuestionIndex = 0;
         let score = 0;
@@ -387,6 +378,7 @@
         function displayQuestion() {
             const question = questions[currentQuestionIndex];
             document.getElementById('question').textContent = question.question;
+            addImageToQuestion(question);
             document.getElementById('hint').textContent = question.hint;
             document.getElementById('hint').classList.add('hidden');
             
@@ -524,6 +516,26 @@
 
         // Initialize the quiz
         displayQuestion();
+
+        function addImageToQuestion(question) {
+    let existing = document.getElementById('questionImage');
+    if (existing) existing.remove();
+
+    if (question.image) {
+        const img = document.createElement('img');
+        img.src = question.image;
+        img.id = 'questionImage';
+        img.alt = 'illustration de la question';
+        img.style.maxWidth = '100%';
+        img.style.marginTop = '20px';
+        img.style.borderRadius = '15px';
+        img.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+        img.style.transition = 'all 0.3s ease';
+
+        const container = document.querySelector('.question-container');
+        container.appendChild(img);
+    }
+}
     </script>
 </body>
 </html>

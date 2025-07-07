@@ -247,107 +247,128 @@
 
     <script>
         const questions = [
-            {
-                question: "Combien y a-t-il de nombres entre 0 et 10 (inclus) ?",
-                answers: ["10", "11", "9", "12"],
-                correct: 1
-            },
-            {
-                question: "Que signifie le nombre 0 ?",
-                answers: ["Beaucoup", "Rien", "Un peu", "Tout"],
-                correct: 1
-            },
-            {
-                question: "Comment écrit-on le nombre 3 en lettres ?",
-                answers: ["trois", "treize", "trente", "trios"],
-                correct: 0
-            },
-            {
-                question: "Quel nombre vient après 7 ?",
-                answers: ["6", "8", "9", "10"],
-                correct: 1
-            },
-            {
-                question: "Comment écrit-on le nombre 8 en lettres ?",
-                answers: ["neuf", "sept", "huit", "dix"],
-                correct: 2
-            },
-            {
-                question: "Combien de doigts a-t-on sur une main ?",
-                answers: ["4", "5", "6", "10"],
-                correct: 1
-            },
-            {
-                question: "Quel est le plus petit nombre de la liste ?",
-                answers: ["1", "0", "2", "3"],
-                correct: 1
-            },
-            {
-                question: "Comment écrit-on le nombre 10 en lettres ?",
-                answers: ["dix", "dis", "onze", "neuf"],
-                correct: 0
-            },
-            {
-                question: "Quel nombre vient avant 5 ?",
-                answers: ["6", "3", "4", "7"],
-                correct: 2
-            },
-            {
-                question: "À quoi servent les nombres ? (Choisissez la meilleure réponse)",
-                answers: ["Seulement compter", "Compter, comparer et ordonner", "Seulement écrire", "Faire du bruit"],
-                correct: 1
-            },
-            {
-                question: "Comment écrit-on le nombre 6 en lettres ?",
-                answers: ["sept", "six", "cinq", "seize"],
-                correct: 1
-            },
-            {
-                question: "Quel est le plus grand nombre de la liste ?",
-                answers: ["9", "8", "10", "7"],
-                correct: 2
-            },
-            {
-                question: "Comment écrit-on le nombre 4 en lettres ?",
-                answers: ["quatorze", "quatre", "quarante", "carte"],
-                correct: 1
-            },
-            {
-                question: "Combien font 3 + 2 ?",
-                answers: ["4", "5", "6", "7"],
-                correct: 1
-            },
-            {
-                question: "Comment écrit-on le nombre 9 en lettres ?",
-                answers: ["neuf", "noeuf", "neuve", "nouveau"],
-                correct: 0
-            },
-            {
-                question: "Quel nombre vient entre 1 et 3 ?",
-                answers: ["0", "2", "4", "5"],
-                correct: 1
-            },
-            {
-                question: "Comment écrit-on le nombre 7 en lettres ?",
-                answers: ["cette", "sept", "set", "sept"],
-                correct: 1
-            },
-            {
-                question: "Si j'ai 0 bonbon dans ma poche, combien j'en ai ?",
-                answers: ["Beaucoup", "Aucun", "Quelques-uns", "Plein"],
-                correct: 1
-            },
-            {
-                question: "Comment écrit-on le nombre 1 en lettres ?",
-                answers: ["un", "une", "in", "hun"],
-                correct: 0
-            },
-            {
-                question: "Quel nombre vient juste après 9 ?",
-                answers: ["8", "11", "10", "12"],
-                correct: 2
-            }
-        ];
+    {
+        question: "Combien de pommes vois-tu ?",
+        answers: ["1", "2", "3", "4"],
+        correct: 2,
+        image: "images/3pommes.png"
+    },
+    {
+        question: "Combien de doigts compte cette main ?",
+        answers: ["4", "5", "6", "10"],
+        correct: 1,
+        image: "images/quiz/main5doigts.png"
+    },
+    {
+        question: "Combien y a-t-il de ballons ?",
+        answers: ["2", "3", "4", "5"],
+        correct: 1,
+        image: "images/quiz/ballons3.png"
+    },
+    {
+        question: "Combien d'étoiles vois-tu ?",
+        answers: ["9", "10", "8", "7"],
+        correct: 0,
+        image: "images/quiz/etoiles9.png"
+    },
+    {
+        question: "Combien d'œufs sont sur la table ?",
+        answers: ["5", "6", "7", "8"],
+        correct: 1,
+        image: "images/quiz/oeufs6.png"
+    },
+    {
+        question: "Que signifie ce nombre ?",
+        answers: ["Rien", "Un peu", "Tout", "Beaucoup"],
+        correct: 0,
+        image: "images/quiz/zero.png"
+    },
+    {
+        question: "Quel est ce nombre en lettres ?",
+        answers: ["quatre", "cinq", "six", "sept"],
+        correct: 2,
+        image: "images/quiz/nombre6.png"
+    },
+    {
+        question: "Combien de bonbons y a-t-il ?",
+        answers: ["2", "4", "0", "3"],
+        correct: 2,
+        image: "images/quiz/bonbons0.png"
+    },
+    {
+        question: "Quel est ce nombre ?",
+        answers: ["3", "4", "5", "6"],
+        correct: 1,
+        image: "images/quiz/nombre4.png"
+    },
+    {
+        question: "Combien de yeux a ce visage ?",
+        answers: ["1", "2", "3", "4"],
+        correct: 1,
+        image: "images/quiz/yeux2.png"
+    },
+    {
+        question: "Écris ce nombre en lettres :",
+        answers: ["un", "deux", "trois", "quatre"],
+        correct: 0,
+        image: "images/quiz/nombre1.png"
+    },
+    {
+        question: "Combien de couleurs a cet arc-en-ciel ?",
+        answers: ["6", "7", "8", "10"],
+        correct: 1,
+        image: "images/quiz/arc7.png"
+    },
+    {
+        question: "Quel nombre vient après 5 ?",
+        answers: ["4", "6", "7", "8"],
+        correct: 1,
+        image: "images/quiz/nombre5.png"
+    },
+    {
+        question: "Quel est ce nombre écrit en lettres ?",
+        answers: ["huit", "neuf", "dix", "onze"],
+        correct: 2,
+        image: "images/quiz/nombre10.png"
+    },
+    {
+        question: "Combien d'animaux vois-tu ?",
+        answers: ["2", "3", "5", "4"],
+        correct: 3,
+        image: "images/quiz/animaux4.png"
+    },
+    {
+        question: "Quel est le chiffre représenté ici ?",
+        answers: ["7", "6", "5", "8"],
+        correct: 0,
+        image: "images/quiz/nombre7.png"
+    },
+    {
+        question: "Quel est le plus grand nombre ?",
+        answers: ["6", "9", "10", "8"],
+        correct: 2,
+        image: "images/quiz/nombres.png"
+    },
+    {
+        question: "Quel est le plus petit nombre ?",
+        answers: ["1", "2", "0", "3"],
+        correct: 2,
+        image: "images/quiz/nombre0.png"
+    },
+    {
+        question: "Quel nombre est juste avant 4 ?",
+        answers: ["2", "3", "5", "6"],
+        correct: 1,
+        image: "images/quiz/nombre3.png"
+    },
+    {
+        question: "Quel est ce nombre en lettres ?",
+        answers: ["neuf", "huit", "sept", "six"],
+        correct: 0,
+        image: "images/quiz/nombre9.png"
+    }
+];
+
 
         let currentQuestionIndex = 0;
         let score = 0;
@@ -360,6 +381,7 @@
         function displayQuestion() {
             const question = questions[currentQuestionIndex];
             document.getElementById('question').textContent = question.question;
+            addImageToQuestion(question);
             
             const answersContainer = document.getElementById('answers');
             answersContainer.innerHTML = '';
@@ -464,6 +486,26 @@
 
         // Initialize the quiz
         displayQuestion();
+
+        function addImageToQuestion(question) {
+            let existing = document.getElementById('questionImage');
+            if (existing) existing.remove();
+
+            if (question.image) {
+        const img = document.createElement('img');
+              img.src = question.image;
+              img.id = 'questionImage';
+              img.alt = 'illustration de la question';
+              img.style.maxWidth = '100%';
+              img.style.marginTop = '20px';
+              img.style.borderRadius = '15px';
+              img.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+              img.style.transition = 'all 0.3s ease';
+
+        const container = document.querySelector('.question-container');
+        container.appendChild(img);
+            }
+        }
     </script>
 </body>
 </html>

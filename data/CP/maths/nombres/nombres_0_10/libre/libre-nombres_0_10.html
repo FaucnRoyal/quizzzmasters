@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions Libres - Les nombres de 0 à 10</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #d69302;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-button:hover {
+            background: #d69302;
+            transform: translateY(-2px);
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 6px;
+        }
+        
+        .question-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #4ecdc4;
+        }
+        
+        .question {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .input-container {
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .answer-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 15px 20px;
+            font-size: 1.3em;
+            border: 3px solid #ddd;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+        
+        .answer-input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+        }
+        
+        .answer-input.correct {
+            border-color: #2ecc71;
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .answer-input.incorrect {
+            border-color: #e74c3c;
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn.check-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+        
+        .score-display {
+            font-size: 1.5em;
+            color: #333;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f8ff;
+            border-radius: 10px;
+        }
+        
+        .final-score {
+            font-size: 2em;
+            color: #2ecc71;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .feedback {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .hint {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .celebration {
+            font-size: 3em;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .correct-answer {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <button class="back-button" onclick="goBack()">
+            ← Retour
+        </button>
+        
+        <h1>✏️ Questions Libres - Les nombres de 0 à 10</h1>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="score-display">
+            Question <span id="currentQuestion">1</span> sur 20 | Score: <span id="score">0</span>/20
+        </div>
+        
+        <div id="quizContent">
+            <div class="question-container">
+                <div class="question" id="question"></div>
+                <div class="input-container">
+                    <input type="text" class="answer-input" id="answerInput" placeholder="Tapez votre réponse ici..." autocomplete="off">
+                </div>
+                <div class="hint hidden" id="hint"></div>
+            </div>
+            
+            <div class="feedback hidden" id="feedback"></div>
+            <div class="correct-answer hidden" id="correctAnswer"></div>
+            
+            <button class="btn check-btn" id="checkBtn" onclick="checkAnswer()">Vérifier</button>
+            <button class="btn hidden" id="nextBtn" onclick="nextQuestion()">Question suivante</button>
+        </div>
+        
+        <div id="finalResult" class="hidden">
+            <div class="celebration">🎉</div>
+            <h2>Quiz terminé !</h2>
+            <div class="final-score" id="finalScore"></div>
+            <div id="finalMessage"></div>
+            <button class="btn" onclick="restartQuiz()">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Écris le nombre qui vient après 5 :",
+                answers: ["6", "six"],
+                hint: "Compte : 1, 2, 3, 4, 5, ..."
+            },
+            {
+                question: "Écris en lettres le nombre 7 :",
+                answers: ["sept"],
+                hint: "C'est un nombre entre six et huit"
+            },
+            {
+                question: "Combien de doigts as-tu sur tes deux mains ?",
+                answers: ["10", "dix"],
+                hint: "Compte tous tes doigts !"
+            },
+            {
+                question: "Que signifie le nombre 0 ?",
+                answers: ["rien", "vide", "aucun", "zéro"],
+                hint: "Quand il n'y a pas d'objets dans une boîte..."
+            },
+            {
+                question: "Écris en lettres le nombre 3 :",
+                answers: ["trois"],
+                hint: "Ce nombre vient après deux"
+            },
+            {
+                question: "Quel est le plus petit nombre de 0 à 10 ?",
+                answers: ["0", "zéro"],
+                hint: "C'est le nombre qui signifie 'rien'"
+            },
+            {
+                question: "Écris en lettres le nombre 1 :",
+                answers: ["un"],
+                hint: "C'est le premier nombre après zéro"
+            },
+            {
+                question: "Combien font 4 + 1 ?",
+                answers: ["5", "cinq"],
+                hint: "Compte : 4 et encore 1 de plus"
+            },
+            {
+                question: "Écris le nombre qui vient avant 9 :",
+                answers: ["8", "huit"],
+                hint: "Compte à l'envers : 10, 9, ..."
+            },
+            {
+                question: "Écris en lettres le nombre 10 :",
+                answers: ["dix"],
+                hint: "C'est le plus grand nombre de la leçon"
+            },
+            {
+                question: "Combien de doigts as-tu sur une main ?",
+                answers: ["5", "cinq"],
+                hint: "Regarde ta main et compte !"
+            },
+            {
+                question: "Écris en lettres le nombre 2 :",
+                answers: ["deux"],
+                hint: "C'est le nombre qui vient après un"
+            },
+            {
+                question: "Quel nombre vient entre 3 et 5 ?",
+                answers: ["4", "quatre"],
+                hint: "Compte : 3, ?, 5"
+            },
+            {
+                question: "Écris en lettres le nombre 6 :",
+                answers: ["six"],
+                hint: "C'est le nombre qui vient après cinq"
+            },
+            {
+                question: "Combien font 2 + 3 ?",
+                answers: ["5", "cinq"],
+                hint: "Compte : 2 et encore 3 de plus"
+            },
+            {
+                question: "Écris en lettres le nombre 4 :",
+                answers: ["quatre"],
+                hint: "C'est le nombre qui vient après trois"
+            },
+            {
+                question: "Quel est le plus grand nombre de 0 à 10 ?",
+                answers: ["10", "dix"],
+                hint: "C'est le dernier nombre de la leçon"
+            },
+            {
+                question: "Écris en lettres le nombre 8 :",
+                answers: ["huit"],
+                hint: "C'est le nombre qui vient après sept"
+            },
+            {
+                question: "Combien font 6 - 1 ?",
+                answers: ["5", "cinq"],
+                hint: "Enlève 1 à 6"
+            },
+            {
+                question: "Écris en lettres le nombre 9 :",
+                answers: ["neuf"],
+                hint: "C'est le nombre qui vient avant dix"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let hasAnswered = false;
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = question.question;
+            document.getElementById('hint').textContent = question.hint;
+            document.getElementById('hint').classList.add('hidden');
+            
+            const input = document.getElementById('answerInput');
+            input.value = '';
+            input.className = 'answer-input';
+            input.focus();
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('checkBtn').classList.remove('hidden');
+            document.getElementById('nextBtn').classList.add('hidden');
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('correctAnswer').classList.add('hidden');
+            
+            hasAnswered = false;
+            
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function normalizeAnswer(answer) {
+            return answer.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+        }
+
+        function checkAnswer() {
+            if (hasAnswered) return;
+            
+            const userAnswer = document.getElementById('answerInput').value;
+            const question = questions[currentQuestionIndex];
+            const normalizedUserAnswer = normalizeAnswer(userAnswer);
+            
+            if (normalizedUserAnswer === '') {
+                document.getElementById('hint').classList.remove('hidden');
+                return;
+            }
+            
+            let isCorrect = false;
+            for (let correctAnswer of question.answers) {
+                if (normalizedUserAnswer === normalizeAnswer(correctAnswer)) {
+                    isCorrect = true;
+                    break;
+                }
+            }
+            
+            const input = document.getElementById('answerInput');
+            const feedback = document.getElementById('feedback');
+            
+            if (isCorrect) {
+                score++;
+                input.className = 'answer-input correct';
+                feedback.textContent = "Bravo ! Excellente réponse ! 🎉";
+                feedback.className = 'feedback correct';
+            } else {
+                input.className = 'answer-input incorrect';
+                feedback.textContent = "Pas tout à fait, mais continue ! 💪";
+                feedback.className = 'feedback incorrect';
+                
+                // Show correct answer
+                const correctAnswerDiv = document.getElementById('correctAnswer');
+                correctAnswerDiv.textContent = `La bonne réponse était : ${question.answers[0]}`;
+                correctAnswerDiv.classList.remove('hidden');
+            }
+            
+            feedback.classList.remove('hidden');
+            document.getElementById('score').textContent = score;
+            document.getElementById('checkBtn').classList.add('hidden');
+            document.getElementById('nextBtn').classList.remove('hidden');
+            
+            hasAnswered = true;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                showFinalResult();
+            }
+        }
+
+        function showFinalResult() {
+            document.getElementById('quizContent').classList.add('hidden');
+            document.getElementById('finalResult').classList.remove('hidden');
+            
+            const finalScore = document.getElementById('finalScore');
+            finalScore.textContent = `${score}/20`;
+            
+            const finalMessage = document.getElementById('finalMessage');
+            let message = '';
+            
+            if (score >= 18) {
+                message = "Fantastique ! Tu es un vrai expert des nombres ! 🌟⭐";
+            } else if (score >= 15) {
+                message = "Très bien ! Tu maîtrises très bien les nombres de 0 à 10 ! 🎯👍";
+            } else if (score >= 12) {
+                message = "Bien joué ! Tu progresses bien, continue comme ça ! 💪📚";
+            } else if (score >= 8) {
+                message = "C'est un bon début ! Avec un peu plus d'entraînement, tu vas y arriver ! 🎓";
+            } else {
+                message = "Continue à apprendre ! Chaque erreur t'aide à progresser ! 🌱📖";
+            }
+            
+            finalMessage.textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            hasAnswered = false;
+            
+            document.getElementById('quizContent').classList.remove('hidden');
+            document.getElementById('finalResult').classList.add('hidden');
+            document.getElementById('score').textContent = '0';
+            
+            displayQuestion();
+        }
+
+        function goBack() {
+                window.history.back();
+        }
+        
+
+        // Event listeners
+        document.getElementById('answerInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (!hasAnswered) {
+                    checkAnswer();
+                } else {
+                    nextQuestion();
+                }
+            }
+        });
+
+        // Initialize the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>

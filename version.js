@@ -1,5 +1,5 @@
 // version.js
-const version = "v1.0.2";
+const version = "1.0.3";
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionDiv = document.createElement("div");

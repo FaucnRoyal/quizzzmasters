@@ -1,532 +1,405 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questions Libres - Les nombres de 0 à 10</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .quiz-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            padding: 30px;
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .quiz-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 8px;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
-        }
-        
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: #6329bb;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .back-button:hover {
-            background: #6329bb;
-            transform: translateY(-2px);
-        }
-        
-        h1 {
-            color: #333;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            margin-top: 20px;
-        }
-        
-        .progress-bar {
-            background: #e0e0e0;
-            height: 12px;
-            border-radius: 6px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
-            width: 0%;
-            transition: width 0.5s ease;
-            border-radius: 6px;
-        }
-        
-        .question-container {
-            margin: 30px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            border-left: 5px solid #4ecdc4;
-        }
-        
-        .question {
-            font-size: 1.4em;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        
-        .input-container {
-            margin: 20px 0;
-            position: relative;
-        }
-        
-        .answer-input {
-            width: 100%;
-            max-width: 300px;
-            padding: 15px 20px;
-            font-size: 1.3em;
-            border: 3px solid #ddd;
-            border-radius: 12px;
-            text-align: center;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            background: #fff;
-        }
-        
-        .answer-input:focus {
-            outline: none;
-            border-color: #4ecdc4;
-            box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
-        }
-        
-        .answer-input.correct {
-            border-color: #2ecc71;
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .answer-input.incorrect {
-            border-color: #e74c3c;
-            background: #f8d7da;
-            color: #721c24;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            margin: 10px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .btn.check-btn {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-        }
-        
-        .score-display {
-            font-size: 1.5em;
-            color: #333;
-            margin: 20px 0;
-            padding: 15px;
-            background: #f0f8ff;
-            border-radius: 10px;
-        }
-        
-        .final-score {
-            font-size: 2em;
-            color: #2ecc71;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        
-        .feedback {
-            margin: 15px 0;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-        
-        .feedback.correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .feedback.incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .hint {
-            background: #fff3cd;
-            color: #856404;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 0.9em;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .celebration {
-            font-size: 3em;
-            animation: bounce 1s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-        
-        .correct-answer {
-            background: #d4edda;
-            color: #155724;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-weight: bold;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questions Libres - Les nombres de 0 à 10</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-    </style>
+    .quiz-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quiz-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #6329bb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: #5320a1;
+      transform: translateY(-2px);
+    }
+
+    h1 {
+      color: #333;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      margin-top: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar {
+      background: #e0e0e0;
+      height: 12px;
+      border-radius: 6px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+      width: 0%;
+      transition: width 0.5s ease;
+      border-radius: 6px;
+    }
+
+    .question-container {
+      margin: 30px 0;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 15px;
+      border-left: 5px solid #4ecdc4;
+    }
+
+    .question {
+      font-size: 1.4em;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    #questionImage {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .input-container {
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .answer-input {
+      width: 100%;
+      max-width: 300px;
+      padding: 15px 20px;
+      font-size: 1.3em;
+      border: 3px solid #ddd;
+      border-radius: 12px;
+      text-align: center;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      background: #fff;
+    }
+
+    .answer-input:focus {
+      outline: none;
+      border-color: #4ecdc4;
+      box-shadow: 0 0 10px rgba(78, 205, 196, 0.3);
+    }
+
+    .answer-input.correct {
+      border-color: #2ecc71;
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .answer-input.incorrect {
+      border-color: #e74c3c;
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      margin: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn.check-btn {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    }
+
+    .score-display {
+      font-size: 1.5em;
+      color: #333;
+      margin: 20px 0;
+      padding: 15px;
+      background: #f0f8ff;
+      border-radius: 10px;
+    }
+
+    .final-score {
+      font-size: 2em;
+      color: #2ecc71;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .feedback {
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .feedback.correct {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .feedback.incorrect {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .correct-answer {
+      background: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .celebration {
+      font-size: 3em;
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+  </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <button class="back-button" onclick="goBack()">
-            ← Retour
-        </button>
-        
-        <h1>✏️ Questions Libres - Les nombres de 0 à 10</h1>
-        
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-        
-        <div class="score-display">
-            Question <span id="currentQuestion">1</span> sur 20 | Score: <span id="score">0</span>/20
-        </div>
-        
-        <div id="quizContent">
-            <div class="question-container">
-                <div class="question" id="question"></div>
-                <img id="questionImage" src="" alt="Illustration de la question" style="max-width:100%; margin-top: 10px; display:none;">
-                <div class="input-container">
-                    <input type="text" class="answer-input" id="answerInput" placeholder="Tapez votre réponse ici..." autocomplete="off">
-                </div>
-                <div class="hint hidden" id="hint"></div>
-            </div>
-            
-            <div class="feedback hidden" id="feedback"></div>
-            <div class="correct-answer hidden" id="correctAnswer"></div>
-            
-            <button class="btn check-btn" id="checkBtn" onclick="checkAnswer()">Vérifier</button>
-            <button class="btn hidden" id="nextBtn" onclick="nextQuestion()">Question suivante</button>
-        </div>
-        
-        <div id="finalResult" class="hidden">
-            <div class="celebration">🎉</div>
-            <h2>Quiz terminé !</h2>
-            <div class="final-score" id="finalScore"></div>
-            <div id="finalMessage"></div>
-            <button class="btn" onclick="restartQuiz()">Recommencer</button>
-        </div>
+  <div class="quiz-container">
+    <button class="back-button" onclick="goBack()">← Retour</button>
+    <h1>✏️ Questions Libres - Les nombres de 0 à 10</h1>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <script>
-        const freeQuestions2 = [
-    {
+    <div class="score-display">
+      Question <span id="currentQuestion">1</span> sur 20 | Score: <span id="score">0</span>/20
+    </div>
+
+    <div id="quizContent">
+      <div class="question-container">
+        <img id="questionImage" alt="illustration question">
+        <div class="question" id="question"></div>
+        <div class="input-container">
+          <input type="text" class="answer-input" id="answerInput" placeholder="Tapez votre réponse ici..." autocomplete="off">
+        </div>
+      </div>
+
+      <div class="feedback hidden" id="feedback"></div>
+      <div class="correct-answer hidden" id="correctAnswer"></div>
+
+      <button class="btn check-btn" id="checkBtn" onclick="checkAnswer()">Vérifier</button>
+      <button class="btn hidden" id="nextBtn" onclick="nextQuestion()">Question suivante</button>
+    </div>
+
+    <div id="finalResult" class="hidden">
+      <div class="celebration">🎉</div>
+      <h2>Quiz terminé !</h2>
+      <div class="final-score" id="finalScore"></div>
+      <div id="finalMessage"></div>
+      <button class="btn" onclick="restartQuiz()">Recommencer</button>
+    </div>
+  </div>
+
+  <script>
+    const freeQuestions2 = [
+      {
         question: "Combien de canards y a-t-il dans l’image ?",
         answer: "5",
-        image: "images/quiz/canards5.png"
-    },
-    {
+        image: "images/5canards.png"
+      },
+      {
         question: "Quelle nombre est après le un",
-        answer: "1",
-    },
-    {
-        question: "Combien de main a une personne ?",
-        answer: "2",
-    },
-    {
+        answer: "2"
+      },
+      {
         question: "Combien de voitures vois-tu ?",
         answer: "3",
         image: "images/quiz/voitures3.png"
-    },
-    {
-        question: "Quel chiffre est représenté en lettres ici ?",
-        answer: "7",
-        image: "images/quiz/lettres_sept.png"
-    },
-    {
-        question: "Combien de crayons sont posés ?",
-        answer: "10",
-        image: "images/quiz/crayons10.png"
-    },
-    {
-        question: "Quelle nombre est entre 7 et 9 ?",
-        answer: "8",
-    },
-    {
-        question: "Quel est le chiffre avant 10 ?",
-        answer: "9",
-    },
-    {
-        question: "Écris en lettres le chiffre 2.",
-        answer: "deux",
-    },
-    {
-        question: "Combien de part gâteaux y a-t-il ?",
-        answer: "6",
-        image: "images/quiz/gateaux6.png"
-    },
-    {
+      },
+      {
         question: "Combien de doigts à une main ?",
-        answer: "5",
-    },
-    {
-        question: "Combien y a-t-il de jouets ?",
-        answer: "7",
-        image: "images/quiz/jouets7.png"
-    },
-    {
-        question: "Combien de jour compte une semaine ?",
-        answer: "7",
-    },
-    {
+        answer: "5"
+      },
+      {
         question: "Combien de poissons rouges vois-tu ?",
         answer: "2",
         image: "images/quiz/poissons2.png"
-    },
-    {
-        question: "Combien d’assiettes sont posées ?",
-        answer: "8",
-        image: "images/quiz/assiettes8.png"
-    },
-    {
-        question: "Quel chiffre vient juste après 2 ?",
-        answer: "3",
-    },
-    {
-        question: "Écris en lettres le chiffre 0.",
-        answer: "zéro",
-    },
-    {
-        question: "Combien de coeurs roses vois-tu ?",
-        answer: "4",
-        image: "images/quiz/coeurs4.png"
-    },
-    {
-        question: "Quel chiffre vient juste avant 6 ?",
-        answer: "5",
-    },
-    {
-        question: "Combien de fruits sont dessinés ?",
-        answer: "9",
-        image: "images/quiz/fruits9.png"
+      }
+    ];
+
+    const questions = freeQuestions2;
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let hasAnswered = false;
+
+    function displayQuestion() {
+      const question = questions[currentQuestionIndex];
+      document.getElementById('question').textContent = question.question;
+      
+      const imageEl = document.getElementById('questionImage');
+      if (question.image) {
+        imageEl.src = question.image;
+        imageEl.style.display = 'block';
+      } else {
+        imageEl.style.display = 'none';
+      }
+
+      const input = document.getElementById('answerInput');
+      input.value = '';
+      input.className = 'answer-input';
+      input.focus();
+
+      document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+      document.getElementById('checkBtn').classList.remove('hidden');
+      document.getElementById('nextBtn').classList.add('hidden');
+      document.getElementById('feedback').classList.add('hidden');
+      document.getElementById('correctAnswer').classList.add('hidden');
+
+      hasAnswered = false;
+      const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+      document.getElementById('progressFill').style.width = progress + '%';
     }
-];
 
+    function normalize(str) {
+      return str.toLowerCase().trim();
+    }
 
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let hasAnswered = false;
+    function checkAnswer() {
+      if (hasAnswered) return;
 
-        function displayQuestion() {
-            const question = questions[currentQuestionIndex];
-            document.getElementById('question').textContent = question.question;
+      const userAnswer = normalize(document.getElementById('answerInput').value);
+      const correctAnswer = normalize(questions[currentQuestionIndex].answer);
+      const input = document.getElementById('answerInput');
+      const feedback = document.getElementById('feedback');
 
-const imgEl = document.getElementById('questionImage');
-if (question.image) {
-    imgEl.src = question.image;
-    imgEl.style.display = 'block';
-} else {
-    imgEl.style.display = 'none';
-}
+      if (userAnswer === correctAnswer) {
+        score++;
+        input.className = 'answer-input correct';
+        feedback.textContent = "Bravo ! Excellente réponse ! 🎉";
+        feedback.className = 'feedback correct';
+      } else {
+        input.className = 'answer-input incorrect';
+        feedback.textContent = "Pas tout à fait, essaie encore !";
+        feedback.className = 'feedback incorrect';
+        const correctAnswerDiv = document.getElementById('correctAnswer');
+        correctAnswerDiv.textContent = `La bonne réponse était : ${questions[currentQuestionIndex].answer}`;
+        correctAnswerDiv.classList.remove('hidden');
+      }
 
-            document.getElementById('hint').textContent = question.hint;
-            document.getElementById('hint').classList.add('hidden');
-            
-            const input = document.getElementById('answerInput');
-            input.value = '';
-            input.className = 'answer-input';
-            input.focus();
-            
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            document.getElementById('checkBtn').classList.remove('hidden');
-            document.getElementById('nextBtn').classList.add('hidden');
-            document.getElementById('feedback').classList.add('hidden');
-            document.getElementById('correctAnswer').classList.add('hidden');
-            
-            hasAnswered = false;
-            
-            // Update progress bar
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
+      feedback.classList.remove('hidden');
+      document.getElementById('score').textContent = score;
+      document.getElementById('checkBtn').classList.add('hidden');
+      document.getElementById('nextBtn').classList.remove('hidden');
 
-        function normalizeAnswer(answer) {
-            return answer.toLowerCase().trim().replace(/[^a-z0-9]/g, '');
-        }
+      hasAnswered = true;
+    }
 
-        function checkAnswer() {
-            if (hasAnswered) return;
-            
-            const userAnswer = document.getElementById('answerInput').value;
-            const question = questions[currentQuestionIndex];
-            const normalizedUserAnswer = normalizeAnswer(userAnswer);
-            
-            if (normalizedUserAnswer === '') {
-                document.getElementById('hint').classList.remove('hidden');
-                return;
-            }
-            
-            let isCorrect = false;
-            for (let correctAnswer of question.answers) {
-                if (normalizedUserAnswer === normalizeAnswer(correctAnswer)) {
-                    isCorrect = true;
-                    break;
-                }
-            }
-            
-            const input = document.getElementById('answerInput');
-            const feedback = document.getElementById('feedback');
-            
-            if (isCorrect) {
-                score++;
-                input.className = 'answer-input correct';
-                feedback.textContent = "Bravo ! Excellente réponse ! 🎉";
-                feedback.className = 'feedback correct';
-            } else {
-                input.className = 'answer-input incorrect';
-                feedback.textContent = "Pas tout à fait, mais continue ! 💪";
-                feedback.className = 'feedback incorrect';
-                
-                // Show correct answer
-                const correctAnswerDiv = document.getElementById('correctAnswer');
-                correctAnswerDiv.textContent = `La bonne réponse était : ${question.answers[0]}`;
-                correctAnswerDiv.classList.remove('hidden');
-            }
-            
-            feedback.classList.remove('hidden');
-            document.getElementById('score').textContent = score;
-            document.getElementById('checkBtn').classList.add('hidden');
-            document.getElementById('nextBtn').classList.remove('hidden');
-            
-            hasAnswered = true;
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            
-            if (currentQuestionIndex < questions.length) {
-                displayQuestion();
-            } else {
-                showFinalResult();
-            }
-        }
-
-        function showFinalResult() {
-            document.getElementById('quizContent').classList.add('hidden');
-            document.getElementById('finalResult').classList.remove('hidden');
-            
-            const finalScore = document.getElementById('finalScore');
-            finalScore.textContent = `${score}/20`;
-            
-            const finalMessage = document.getElementById('finalMessage');
-            let message = '';
-            
-            if (score >= 18) {
-                message = "Fantastique ! Tu es un vrai expert des nombres ! 🌟⭐";
-            } else if (score >= 15) {
-                message = "Très bien ! Tu maîtrises très bien les nombres de 0 à 10 ! 🎯👍";
-            } else if (score >= 12) {
-                message = "Bien joué ! Tu progresses bien, continue comme ça ! 💪📚";
-            } else if (score >= 8) {
-                message = "C'est un bon début ! Avec un peu plus d'entraînement, tu vas y arriver ! 🎓";
-            } else {
-                message = "Continue à apprendre ! Chaque erreur t'aide à progresser ! 🌱📖";
-            }
-            
-            finalMessage.textContent = message;
-        }
-
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            hasAnswered = false;
-            
-            document.getElementById('quizContent').classList.remove('hidden');
-            document.getElementById('finalResult').classList.add('hidden');
-            document.getElementById('score').textContent = '0';
-            
-            displayQuestion();
-        }
-
-        function goBack() {
-                window.history.back();
-        }
-        
-
-        // Event listeners
-        document.getElementById('answerInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                if (!hasAnswered) {
-                    checkAnswer();
-                } else {
-                    nextQuestion();
-                }
-            }
-        });
-
-        // Initialize the quiz
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
         displayQuestion();
+      } else {
+        showFinalResult();
+      }
+    }
 
-        
-    </script>
+    function showFinalResult() {
+      document.getElementById('quizContent').classList.add('hidden');
+      document.getElementById('finalResult').classList.remove('hidden');
+      document.getElementById('finalScore').textContent = `${score}/${questions.length}`;
+      document.getElementById('finalMessage').textContent = "Bien joué !";
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      hasAnswered = false;
+      document.getElementById('quizContent').classList.remove('hidden');
+      document.getElementById('finalResult').classList.add('hidden');
+      document.getElementById('score').textContent = '0';
+      displayQuestion();
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+
+    document.getElementById('answerInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        if (!hasAnswered) {
+          checkAnswer();
+        } else {
+          nextQuestion();
+        }
+      }
+    });
+
+    displayQuestion();
+  </script>
 </body>
 </html>

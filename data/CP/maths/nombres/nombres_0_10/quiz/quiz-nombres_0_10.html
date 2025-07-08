@@ -209,6 +209,13 @@
             40% { transform: translateY(-10px); }
             60% { transform: translateY(-5px); }
         }
+
+        #questionImage {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+      display: none;
+    }
     </style>
 </head>
 <body>
@@ -227,6 +234,7 @@
         
         <div id="quizContent">
             <div class="question-container">
+                <img id="questionImage" alt="illustration question">
                 <div class="question" id="question"></div>
                 <div class="answers" id="answers"></div>
             </div>
@@ -370,7 +378,14 @@
         function displayQuestion() {
             const question = questions[currentQuestionIndex];
             document.getElementById('question').textContent = question.question;
-            addImageToQuestion(question);
+      
+      const imageEl = document.getElementById('questionImage');
+      if (question.image) {
+        imageEl.src = question.image;
+        imageEl.style.display = 'block';
+      } else {
+        imageEl.style.display = 'none';
+      }
             
             const answersContainer = document.getElementById('answers');
             answersContainer.innerHTML = '';
@@ -476,25 +491,6 @@
         // Initialize the quiz
         displayQuestion();
 
-        function addImageToQuestion(question) {
-            let existing = document.getElementById('questionImage');
-            if (existing) existing.remove();
-
-            if (question.image) {
-        const img = document.createElement('img');
-              img.src = question.image;
-              img.id = 'questionImage';
-              img.alt = 'illustration de la question';
-              img.style.maxWidth = '100%';
-              img.style.marginTop = '20px';
-              img.style.borderRadius = '15px';
-              img.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
-              img.style.transition = 'all 0.3s ease';
-
-        const container = document.querySelector('.question-container');
-        container.appendChild(img);
-            }
-        }
     </script>
 </body>
 </html>

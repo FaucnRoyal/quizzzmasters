@@ -254,6 +254,7 @@
         <div id="quizContent">
             <div class="question-container">
                 <div class="question" id="question"></div>
+                <img id="questionImage" src="" alt="Illustration de la question" style="max-width:100%; margin-top: 10px; display:none;">
                 <div class="input-container">
                     <input type="text" class="answer-input" id="answerInput" placeholder="Tapez votre réponse ici..." autocomplete="off">
                 </div>
@@ -378,6 +379,15 @@
         function displayQuestion() {
             const question = questions[currentQuestionIndex];
             document.getElementById('question').textContent = question.question;
+
+const imgEl = document.getElementById('questionImage');
+if (question.image) {
+    imgEl.src = question.image;
+    imgEl.style.display = 'block';
+} else {
+    imgEl.style.display = 'none';
+}
+
             document.getElementById('hint').textContent = question.hint;
             document.getElementById('hint').classList.add('hidden');
             

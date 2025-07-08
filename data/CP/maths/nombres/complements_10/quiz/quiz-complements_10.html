@@ -1,37 +1,493 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>En cours de préparation</title>
-  <style>
-    body {
-      background-color: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      font-family: Arial, sans-serif;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Les compléments à 10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .quiz-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #6329bb;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background: #6329bb;
+            transform: translateY(-1px);
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 6px;
+        }
+        
+        .question-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #4ecdc4;
+        }
+        
+        .question {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .answers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .answer {
+            padding: 15px 20px;
+            background: #fff;
+            border: 3px solid #ddd;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .answer:hover {
+            border-color: #4ecdc4;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+        
+        .answer.selected {
+            background: #4ecdc4;
+            color: white;
+            border-color: #4ecdc4;
+        }
+        
+        .answer.correct {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+        
+        .answer.incorrect {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .score-display {
+            font-size: 1.5em;
+            color: #333;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f8ff;
+            border-radius: 10px;
+        }
+        
+        .final-score {
+            font-size: 2em;
+            color: #2ecc71;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .feedback {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .celebration {
+            font-size: 3em;
+            animation: bounce 1s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        #questionImage {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+      display: none;
     }
-    .message {
-      text-align: center;
-      font-size: 2em;
-      color: #555;
-      margin-bottom: 20px;
-    }
-    .back-button {
-      padding: 10px 20px;
-      font-size: 1em;
-      color: #555;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-  </style>
+    </style>
 </head>
 <body>
-  <div class="message">En cours de préparation...</div>
-  <button class="back-button" onclick="history.back()">← Retour</button>
+    <div class="quiz-container">
+        <button class="back-button" onclick="goBack()">← Retour</button>
+        
+        <h1>🔢 Quiz - Les compléments à 10</h1>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="score-display">
+            Question <span id="currentQuestion">1</span> sur 20 | Score: <span id="score">0</span>/20
+        </div>
+        
+        <div id="quizContent">
+            <div class="question-container">
+                <img id="questionImage" alt="illustration question">
+                <div class="question" id="question"></div>
+                <div class="answers" id="answers"></div>
+            </div>
+            
+            <div class="feedback hidden" id="feedback"></div>
+            
+            <button class="btn" id="nextBtn" onclick="nextQuestion()" disabled>Question suivante</button>
+        </div>
+        
+        <div id="finalResult" class="hidden">
+            <div class="celebration">🎉</div>
+            <h2>Quiz terminé !</h2>
+            <div class="final-score" id="finalScore"></div>
+            <div id="finalMessage"></div>
+            <button class="btn" onclick="restartQuiz()">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+    {
+        question: "Combien faut-il ajouter à 4 pour faire 10 ?",
+        answers: ["3", "4", "5", "6"],
+        correct: 3,
+    },
+    {
+        question: "2 + ? = 10",
+        answers: ["4", "6", "8", "10"],
+        correct: 2,
+    },
+    {
+        question: "Quel est le complément de 7 pour faire 10 ?",
+        answers: ["2", "3", "4", "5"],
+        correct: 1,
+    },
+    {
+        question: "Combien de billes faut-il ajouter pour avoir 10 ?",
+        answers: ["6", "10", "5", "7"],
+        correct: 2,
+        image: "images/5billes.png"
+    },
+    {
+        question: "0 + 10 = 10",
+        answers: ["Vrai", "Faux"],
+        correct: 0,
+    },
+    {
+        question: "6 + ? = 10",
+        answers: ["0", "3", "4", "9"],
+        correct: 2,
+    },
+    {
+        question: "Si j'ai 2 bonbons, combien me manque-il de bonbons pour en avoir 10 ?",
+        answers: ["quatre", "cinq", "six", "huit"],
+        correct: 3,
+    },
+    {
+        question: "5 + 4 = 10",
+        answers: ["Vrai", "Faux"],
+        correct: 1,
+    },
+    {
+        question: "7 + 3 = 10",
+        answers: ["Vrai", "Faux"],
+        correct: 0,
+    },
+    {
+        question: "4 + 4 = 10",
+        answers: ["Vrai", "Faux"],
+        correct: 1,
+    },
+    {
+        question: "1 + ? = 10",
+        answers: ["3", "5", "7", "9"],
+        correct: 3,
+    },
+    {
+        question: "Le complément de 5 pour avoir 10 est...",
+        answers: ["5", "6", "7", "8"],
+        correct: 0,
+    },
+    {
+        question: "J'ai invité 10 personnes, combien de verres me faut-il encore ?",
+        answers: ["5", "6", "7", "8"],
+        correct: 3,
+        image: "images/2verres.png"
+    },
+    {
+        question: "0 + ? = 10",
+        answers: ["5", "6", "8", "10"],
+        correct: 3,
+    },
+    {
+        question: "6 + 4 = 10",
+        answers: ["Vrai", "Faux"],
+        correct: 0,
+    },
+    {
+        question: "10 = 3 + ?",
+        answers: ["7", "6", "5", "8"],
+        correct: 0,
+    },
+    {
+        question: "Combien de pommes faut-il rajouter pour en avoir 10 ?",
+        answers: ["6", "9", "1", "5"],
+        correct: 1,
+        image: "images/1pomme.png"
+    },
+    {
+        question: "2 + ? = 10 ?",
+        answers: ["1", "2", "0", "8"],
+        correct: 3,
+    },
+    {
+        question: "Combien de sucettes faut-il rajouter pour en avoir 10 ?",
+        answers: ["2", "3", "6", "10"],
+        correct: 2,
+        image: "images/4sucettes.png"
+    },
+    {
+        question: "Combien de bonbons faut-il rajouter pour en avoir 10 ?",
+        answers: ["7", "5", "1", "8"],
+        correct: 0,
+        image: "images/3bonbons.png"
+    }
+];
+
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedAnswer = null;
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = question.question;
+      
+      const imageEl = document.getElementById('questionImage');
+      if (question.image) {
+        imageEl.src = question.image;
+        imageEl.style.display = 'block';
+      } else {
+        imageEl.style.display = 'none';
+      }
+            
+            const answersContainer = document.getElementById('answers');
+            answersContainer.innerHTML = '';
+            
+            question.answers.forEach((answer, index) => {
+                const answerElement = document.createElement('div');
+                answerElement.className = 'answer';
+                answerElement.textContent = answer;
+                answerElement.onclick = () => selectAnswer(index);
+                answersContainer.appendChild(answerElement);
+            });
+            
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('feedback').classList.add('hidden');
+            selectedAnswer = null;
+            
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function selectAnswer(index) {
+            if (selectedAnswer !== null) return;
+            
+            selectedAnswer = index;
+            const answers = document.querySelectorAll('.answer');
+            const question = questions[currentQuestionIndex];
+            
+            answers.forEach((answer, i) => {
+                if (i === index) {
+                    answer.classList.add('selected');
+                }
+                if (i === question.correct) {
+                    answer.classList.add('correct');
+                } else if (i === index && i !== question.correct) {
+                    answer.classList.add('incorrect');
+                }
+            });
+            
+            const feedback = document.getElementById('feedback');
+            if (index === question.correct) {
+                score++;
+                feedback.textContent = "Bravo ! Bonne réponse ! 🎉";
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = `Pas tout à fait... La bonne réponse était : ${question.answers[question.correct]}`;
+                feedback.className = 'feedback incorrect';
+            }
+            
+            feedback.classList.remove('hidden');
+            document.getElementById('score').textContent = score;
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                showFinalResult();
+            }
+        }
+
+        function showFinalResult() {
+            document.getElementById('quizContent').classList.add('hidden');
+            document.getElementById('finalResult').classList.remove('hidden');
+            
+            const finalScore = document.getElementById('finalScore');
+            finalScore.textContent = `${score}/20`;
+            
+            const finalMessage = document.getElementById('finalMessage');
+            let message = '';
+            
+            if (score >= 18) {
+                message = "Excellent ! Tu maîtrises parfaitement les compléments à 10 ! 🌟";
+            } else if (score >= 15) {
+                message = "Très bien ! Tu connais bien les compléments à 10 ! 👍";
+            } else if (score >= 12) {
+                message = "Bien joué ! Continue à t'entraîner pour devenir un expert ! 💪";
+            } else if (score >= 8) {
+                message = "C'est un bon début ! Revois la leçon et réessaie ! 📚";
+            } else {
+                message = "Continue à apprendre ! Les nombres n'auront bientôt plus de secrets pour toi ! 🎯";
+            }
+            
+            finalMessage.textContent = message;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedAnswer = null;
+            
+            document.getElementById('quizContent').classList.remove('hidden');
+            document.getElementById('finalResult').classList.add('hidden');
+            document.getElementById('score').textContent = '0';
+            
+            displayQuestion();
+        }
+
+        // Initialize the quiz
+        displayQuestion();
+
+    </script>
 </body>
 </html>

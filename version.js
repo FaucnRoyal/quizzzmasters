@@ -1,11 +1,12 @@
 // version.js
-const version = "1.1.0";
+const version = "1.1.1";
 const changelog = [
+  { version: "1.1.1", date: "08/07/2025", changes: "Ajout de l'affichage de la version sur des pages manquantes" },
   { version: "1.1.0", date: "08/07/2025", changes: "Ajout du bouton pour voir le détail des nouvelles versions" },
   { version: "1.0.3", date: "08/07/2025", changes: "Correction de l’affichage de la version" },
-  { version: "1.0.2", date: "08/07/2025", changes: "Ajout de l'information de la version sur toutes les pages" },
+  { version: "1.0.2", date: "08/07/2025", changes: "Ajout de l'affichage de la version sur toutes les pages" },
   { version: "1.0.1", date: "08/07/2025", changes: "Modification questions dans quiz-complements_10" },
-  { version: "1.0.0", date: "08/07/2025", changes: "Lancement du site : QuizzzMasters" }
+  { version: "1.0.0", date: "07/07/2025", changes: "Lancement du site : QuizzzMasters" }
 ];
 
 document.addEventListener("DOMContentLoaded", () => {

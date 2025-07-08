@@ -9,4 +9,47 @@
     font-size: 14px;
     font-family: Arial, sans-serif;
     z-index: 1000;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#version-info:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+#changelog {
+    position: fixed;
+    bottom: 45px;
+    right: 10px;
+    width: 280px;
+    max-height: 300px;
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    padding: 10px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    overflow-y: auto;
+    display: none;
+    z-index: 1001;
+}
+
+#changelog.visible {
+    display: block;
+}
+
+#changelog h4 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+#changelog ul {
+    padding-left: 18px;
+    margin: 0;
+}
+
+#changelog li {
+    margin-bottom: 8px;
 }

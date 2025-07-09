@@ -1,4 +1,5 @@
 const newsList = [
+    { date: "10/07/2025", message: "Nouvelle leçon sur sur les nombres de 10 à 19 -> CP/maths/nombres" },
     { date: "09/07/2025", message: "Système de news activé!!! Vous pouvez voir ici toutes les actualités du moment." }
 ];
 

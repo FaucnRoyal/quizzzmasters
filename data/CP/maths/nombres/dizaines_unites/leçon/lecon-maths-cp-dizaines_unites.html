@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leçon - Les dizaines et les unités</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .lesson-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #6329bb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .back-button:hover {
+            background: #6329bb;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        
+        .back-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .scroll-to-top:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        
+        .scroll-to-top:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .lesson-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 8px;
+            position: relative;
+        }
+        
+        .lesson-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .lesson-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #4ecdc4;
+        }
+        
+        .section h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .number-representation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .tens-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tens-blocks {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .tens-block {
+            width: 15px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .tens-block::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 8px 0 white, 0 16px 0 white, 0 24px 0 white, 0 32px 0 white, 0 40px 0 white, 0 48px 0 white, 0 56px 0 white, 0 64px 0 white, 0 72px 0 white;
+        }
+        
+        .units-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .units-blocks {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .unit-block {
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            border-radius: 3px;
+            animation: popIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            0% { transform: translateX(-50px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .number-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .place-value-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .place-value-column {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .tens-column {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+        
+        .units-column {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            color: white;
+        }
+        
+        .place-value-number {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .interactive-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn.active {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        }
+        
+        .sound-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .sound-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .examples-section {
+            background: #e8f5e8;
+            border-left-color: #2ecc71;
+        }
+        
+        .practice-section {
+            background: #f0f8ff;
+            border-left-color: #45b7d1;
+        }
+        
+        .memory-section {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .progress-indicator {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            width: 0%;
+            transition: width 1s ease;
+            border-radius: 4px;
+        }
+        
+        .equation-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
+        
+        .highlight-tens {
+            color: #ff6b6b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .highlight-units {
+            color: #4ecdc4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .number-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .number-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .abacus {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .abacus-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .abacus-rod {
+            width: 4px;
+            height: 200px;
+            background: #8b4513;
+            border-radius: 2px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 2px;
+            padding: 5px 0;
+        }
+        
+        .abacus-bead {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: dropIn 0.5s ease;
+        }
+        
+        .tens-bead {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+        
+        .units-bead {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+        }
+        
+        @keyframes dropIn {
+            0% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .back-button {
+                position: static;
+                margin-bottom: 20px;
+                align-self: flex-start;
+            }
+            
+            .lesson-header {
+                padding: 20px 20px 30px;
+            }
+            
+            .lesson-header h1 {
+                font-size: 2em;
+            }
+            
+            .number-representation {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .place-value-table {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .equation-display {
+                font-size: 2em;
+            }
+            
+            .abacus {
+                gap: 20px;
+            }
+            
+            .scroll-to-top {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-container">
+        <button class="back-button" onclick="goBack()">
+            ← Retour
+        </button>
+        
+        <div class="lesson-header">
+            <h1>🔢 Les dizaines et les unités</h1>
+            <p>Apprends à compter avec les dizaines et les unités !</p>
+        </div>
+        
+        <div class="lesson-content">
+            <!-- Introduction -->
+            <div class="section fade-in">
+                <h2>🌟 Qu'est-ce que les dizaines et les unités ?</h2>
+                <p style="font-size: 1.2em; text-align: center; color: #333;">
+                    Les nombres sont formés de <span class="highlight-tens">dizaines</span> et d'<span class="highlight-units">unités</span>. 
+                    Une dizaine, c'est <strong>10 unités</strong> regroupées ensemble !
+                </p>
+                <div class="number-display">
+                    <span class="highlight-tens">2</span><span class="highlight-units">3</span>
+                </div>
+                <div class="equation-display">
+                    <span class="highlight-tens">2 dizaines</span> + <span class="highlight-units">3 unités</span> = 23
+                </div>
+            </div>
+            
+            <!-- Progression -->
+            <div class="progress-indicator">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <!-- Représentation visuelle -->
+            <div class="section">
+                <h2>👀 Voir les dizaines et les unités</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #333;">
+                    Regarde comment représenter un nombre avec des barres de 10 et des cubes !
+                </p>
+                <div id="visualRepresentation"></div>
+                <div class="interactive-buttons">
+                    <button class="btn" onclick="showNumber(14)">14</button>
+                    <button class="btn" onclick="showNumber(27)">27</button>
+                    <button class="btn" onclick="showNumber(35)">35</button>
+                    <button class="btn" onclick="showNumber(42)">42</button>
+                    <button class="btn" onclick="showNumber(59)">59</button>
+                </div>
+            </div>
+            
+            <!-- Tableau de position -->
+            <div class="section examples-section">
+                <h2>📊 Le tableau de position</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #333;">
+                    Chaque chiffre a sa place dans le nombre !
+                </p>
+                <div class="place-value-table" id="placeValueTable">
+                    <div class="place-value-column tens-column">
+                        <h3>Dizaines</h3>
+                        <div class="place-value-number" id="tensDigit">2</div>
+                        <p>2 × 10 = 20</p>
+                    </div>
+                    <div class="place-value-column units-column">
+                        <h3>Unités</h3>
+                        <div class="place-value-number" id="unitsDigit">3</div>
+                        <p>3 × 1 = 3</p>
+                    </div>
+                </div>
+                <div class="equation-display" id="totalEquation">
+                    20 + 3 = 23
+                </div>
+            </div>
+            
+            <!-- Boulier -->
+            <div class="section">
+                <h2>🧮 Le boulier</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #333;">
+                    Utilise le boulier pour compter les dizaines et les unités !
+                </p>
+                <div class="abacus" id="abacus">
+                    <div class="abacus-column">
+                        <h3 style="color: #ff6b6b;">Dizaines</h3>
+                        <div class="abacus-rod" id="tensRod"></div>
+                    </div>
+                    <div class="abacus-column">
+                        <h3 style="color: #4ecdc4;">Unités</h3>
+                        <div class="abacus-rod" id="unitsRod"></div>
+                    </div>
+                </div>
+                <div class="interactive-buttons">
+                    <button class="btn" onclick="showOnAbacus(16)">16</button>
+                    <button class="btn" onclick="showOnAbacus(28)">28</button>
+                    <button class="btn" onclick="showOnAbacus(34)">34</button>
+                    <button class="btn" onclick="showOnAbacus(47)">47</button>
+                </div>
+            </div>
+            
+            <!-- Exemples -->
+            <div class="section practice-section">
+                <h2>📚 Exemples détaillés</h2>
+                <div id="examplesContainer"></div>
+                <button class="sound-button" onclick="explainAllExamples()">🔊 Expliquer tout</button>
+            </div>
+            
+            <!-- Mémorisation -->
+            <div class="section memory-section">
+                <h2>🧠 À retenir</h2>
+                <div class="number-card">
+                    <h3 style="text-align: center; color: #333;">Points clés :</h3>
+                    <ul style="font-size: 1.2em; color: #333;">
+                        <li>10 unités = 1 dizaine</li>
+                        <li>Le chiffre de droite = les unités</li>
+                        <li>Le chiffre de gauche = les dizaines</li>
+                        <li>Pour lire un nombre : dizaines + unités</li>
+                    </ul>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button class="sound-button" onclick="reciteRules()">🔊 Réciter les règles</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pratique -->
+            <div class="section">
+                <h2>💪 Entraîne-toi</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #333;">
+                    Clique sur les nombres pour voir leur décomposition !
+                </p>
+                <div class="interactive-buttons">
+                    <button class="btn" onclick="decomposeNumber(52)">52</button>
+                    <button class="btn" onclick="decomposeNumber(67)">67</button>
+                    <button class="btn" onclick="decomposeNumber(84)">84</button>
+                    <button class="btn" onclick="decomposeNumber(91)">91</button>
+                </div>
+                <div id="practiceResult"></div>
+            </div>
+            
+            <!-- Activité finale -->
+            <div class="section">
+                <h2>🎮 À ton tour !</h2>
+                <div style="text-align: center; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <p style="font-size: 1.3em; color: #333;">Maintenant que tu connais les dizaines et les unités, teste tes connaissances !</p>
+                    <div class="interactive-buttons">
+                        <a href="../quiz/quiz-dizaines_unites.html" class="btn">Faire le quiz</a>
+                        <a href="../libre/libre-dizaines_unites.html" class="btn">Questions libres</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
+        ↑
+    </button>
+    <link rel="stylesheet" href="../../../../../../version.css">
+<script src="../../../../../../version.js"></script>
+
+    <script>
+        let currentProgress = 0;
+        
+        const exampleNumbers = [
+            { number: 23, tens: 2, units: 3, description: "vingt-trois" },
+            { number: 45, tens: 4, units: 5, description: "quarante-cinq" },
+            { number: 67, tens: 6, units: 7, description: "soixante-sept" },
+            { number: 81, tens: 8, units: 1, description: "quatre-vingt-un" }
+        ];
+
+        function updateProgress() {
+            currentProgress += 12.5;
+            if (currentProgress > 100) currentProgress = 100;
+            document.getElementById('progressBar').style.width = currentProgress + '%';
+        }
+
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleScrollButton() {
+            const scrollButton = document.getElementById('scrollToTop');
+            if (window.pageYOffset > 300) {
+                scrollButton.classList.add('visible');
+            } else {
+                scrollButton.classList.remove('visible');
+            }
+        }
+
+        function showNumber(number) {
+            const tens = Math.floor(number / 10);
+            const units = number % 10;
+            
+            const container = document.getElementById('visualRepresentation');
+            container.innerHTML = '';
+            
+            const representation = document.createElement('div');
+            representation.className = 'number-representation fade-in';
+            
+            // Tens blocks
+            const tensGroup = document.createElement('div');
+            tensGroup.className = 'tens-group';
+            tensGroup.innerHTML = `<h3 style="color: #ff6b6b;">Dizaines</h3>`;
+            
+            const tensBlocks = document.createElement('div');
+            tensBlocks.className = 'tens-blocks';
+            
+            for (let i = 0; i < tens; i++) {
+                const block = document.createElement('div');
+                block.className = 'tens-block';
+                block.style.animationDelay = `${i * 0.2}s`;
+                tensBlocks.appendChild(block);
+            }
+            
+            tensGroup.appendChild(tensBlocks);
+            tensGroup.innerHTML += `<p style="font-weight: bold; color: #333;">${tens} × 10 = ${tens * 10}</p>`;
+            
+            // Units blocks
+            const unitsGroup = document.createElement('div');
+            unitsGroup.className = 'units-group';
+            unitsGroup.innerHTML = `<h3 style="color: #4ecdc4;">Unités</h3>`;
+            
+            const unitsBlocks = document.createElement('div');
+            unitsBlocks.className = 'units-blocks';
+            
+            for (let i = 0; i < units; i++) {
+                const block = document.createElement('div');
+                block.className = 'unit-block';
+                block.style.animationDelay = `${(tens + i) * 0.1}s`;
+                unitsBlocks.appendChild(block);
+            }
+            
+            unitsGroup.appendChild(unitsBlocks);
+            unitsGroup.innerHTML += `<p style="font-weight: bold; color: #333;">${units} × 1 = ${units}</p>`;
+            
+            // Number display
+            const numberDisplay = document.createElement('div');
+            numberDisplay.className = 'number-display';
+            numberDisplay.innerHTML = `<span class="highlight-tens">${tens}</span><span class="highlight-units">${units}</span>`;
+            
+            representation.appendChild(tensGroup);
+            representation.appendChild(unitsGroup);
+            representation.appendChild(numberDisplay);
+            
+            container.appendChild(representation);
+            
+            // Update place value table
+            document.getElementById('tensDigit').textContent = tens;
+            document.getElementById('unitsDigit').textContent = units;
+            document.getElementById('totalEquation').textContent = `${tens * 10} + ${units} = ${number}`;
+            
+            // Speak the number
+            speakNumber(number, tens, units);
+            
+            updateProgress();
+        }
+
+        function showOnAbacus(number) {
+            const tens = Math.floor(number / 10);
+            const units = number % 10;
+            
+            const tensRod = document.getElementById('tensRod');
+            const unitsRod = document.getElementById('unitsRod');
+            
+            // Clear previous beads
+            tensRod.innerHTML = '';
+            unitsRod.innerHTML = '';
+            
+            // Add tens beads
+            for (let i = 0; i < tens; i++) {
+                const bead = document.createElement('div');
+                bead.className = 'abacus-bead tens-bead';
+                bead.style.animationDelay = `${i * 0.2}s`;
+                tensRod.appendChild(bead);
+            }
+            
+            // Add units beads
+            for (let i = 0; i < units; i++) {
+                const bead = document.createElement('div');
+                bead.className = 'abacus-bead units-bead';
+                bead.style.animationDelay = `${(tens + i) * 0.1}s`;
+                unitsRod.appendChild(bead);
+            }
+            
+            speakNumber(number, tens, units);
+        }
+
+        function decomposeNumber(number) {
+            const tens = Math.floor(number / 10);
+            const units = number % 10;
+            
+            const result = document.getElementById('practiceResult');
+            result.innerHTML = `
+                <div class="number-card fade-in">
+                    <div class="equation-display">
+                        ${number} = <span class="highlight-tens">${tens} dizaines</span> + <span class="highlight-units">${units} unités</span>
+                    </div>
+                    <div class="equation-display">
+                        ${number} = <span class="highlight-tens">${tens * 10}</span> + <span class="highlight-units">${units}</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="sound-button" onclick="speakNumber(${number}, ${tens}, ${units})">
+                            🔊 Écouter
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function speakNumber(number, tens, units) {
+            const phrase = `${number} c'est ${tens} dizaines et ${units} unités`;
+            const utterance = new SpeechSynthesisUtterance(phrase);
+            utterance.lang = 'fr-FR';
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+        }
+
+        function explainAllExamples() {
+            let delay = 0;
+            exampleNumbers.forEach((example, index) => {
+                setTimeout(() => {
+                    speakNumber(example.number, example.tens)
+                    speakNumber(example.number, example.tens, example.units);
+                }, delay);
+                delay += 3000; // 3 secondes entre chaque explication
+            });
+        }
+
+        function reciteRules() {
+            const rules = [
+                "10 unités font 1 dizaine.",
+                "Le chiffre de droite est le chiffre des unités.",
+                "Le chiffre de gauche est celui des dizaines.",
+                "Pour lire un nombre, on lit les dizaines puis les unités."
+            ];
+            let delay = 0;
+            rules.forEach(rule => {
+                setTimeout(() => {
+                    const utterance = new SpeechSynthesisUtterance(rule);
+                    utterance.lang = 'fr-FR';
+                    utterance.rate = 0.8;
+                    speechSynthesis.speak(utterance);
+                }, delay);
+                delay += 3000;
+            });
+        }
+
+        function renderExamples() {
+            const container = document.getElementById('examplesContainer');
+            container.innerHTML = '';
+            exampleNumbers.forEach(example => {
+                const card = document.createElement('div');
+                card.className = 'number-card fade-in';
+                card.innerHTML = `
+                    <h3 style="text-align: center;">${example.description}</h3>
+                    <div class="equation-display">
+                        ${example.number} = <span class="highlight-tens">${example.tens} dizaines</span> + <span class="highlight-units">${example.units} unités</span>
+                    </div>
+                    <div class="equation-display">
+                        ${example.number} = ${example.tens * 10} + ${example.units}
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        <button class="sound-button" onclick="speakNumber(${example.number}, ${example.tens}, ${example.units})">🔊 Écouter</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.onscroll = toggleScrollButton;
+        window.onload = () => {
+            renderExamples();
+        };
+    </script>
+</body>
+</html>

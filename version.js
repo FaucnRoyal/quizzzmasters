@@ -1,6 +1,7 @@
 // version.js
-const version = "1.2.0";
+const version = "1.3.0";
 const changelog = [
+  { version: "1.3.0", date: "09/07/2025", changes: "Ajout du bouton news" },
   { version: "1.2.0", date: "09/07/2025", changes: "Ajout de la leçon 'Les dizaines et les unités' dans la section CP/maths/nombres" },
   { version: "1.1.1", date: "08/07/2025", changes: "Ajout de l'affichage de la version sur des pages manquantes" },
   { version: "1.1.0", date: "08/07/2025", changes: "Ajout du bouton pour voir le détail des nouvelles versions" },

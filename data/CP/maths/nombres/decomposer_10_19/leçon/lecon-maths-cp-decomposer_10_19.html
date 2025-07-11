@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leçon - Décomposer et classer les nombres de 10 à 19</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .lesson-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #6329bb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .back-button:hover {
+            background: #6329bb;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        
+        .back-button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .scroll-to-top:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        
+        .scroll-to-top:active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .lesson-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin-top: 8px;
+            position: relative;
+        }
+        
+        .lesson-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .lesson-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #4ecdc4;
+        }
+        
+        .section h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .number-representation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .tens-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tens-blocks {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .tens-block {
+            width: 15px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .tens-block::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 8px 0 white, 0 16px 0 white, 0 24px 0 white, 0 32px 0 white, 0 40px 0 white, 0 48px 0 white, 0 56px 0 white, 0 64px 0 white, 0 72px 0 white;
+        }
+        
+        .units-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .units-blocks {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .unit-block {
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            border-radius: 3px;
+            animation: popIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            0% { transform: translateX(-50px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .number-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .number-line {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .number-line-item {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            border: 3px solid transparent;
+        }
+        
+        .number-line-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .number-line-item.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border-color: #333;
+            transform: scale(1.2);
+        }
+        
+        .interactive-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn.active {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        }
+        
+        .sound-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .sound-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .examples-section {
+            background: #e8f5e8;
+            border-left-color: #2ecc71;
+        }
+        
+        .practice-section {
+            background: #f0f8ff;
+            border-left-color: #45b7d1;
+        }
+        
+        .memory-section {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+        
+        .classification-section {
+            background: #f8e8ff;
+            border-left-color: #9b59b6;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .progress-indicator {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            width: 0%;
+            transition: width 1s ease;
+            border-radius: 4px;
+        }
+        
+        .equation-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
+        
+        .highlight-tens {
+            color: #ff6b6b;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .highlight-units {
+            color: #4ecdc4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .number-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .number-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .classification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .classification-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .classification-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .classification-item.smaller {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            color: white;
+        }
+        
+        .classification-item.equal {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            color: #333;
+        }
+        
+        .classification-item.greater {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+        
+        .comparison-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .comparison-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #333;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-radius: 15px;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .comparison-symbol {
+            font-size: 4em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .back-button {
+                position: static;
+                margin-bottom: 20px;
+                align-self: flex-start;
+            }
+            
+            .lesson-header {
+                padding: 20px 20px 30px;
+            }
+            
+            .lesson-header h1 {
+                font-size: 2em;
+            }
+            
+            .number-representation {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .equation-display {
+                font-size: 2em;
+            }
+            
+            .number-line {
+                gap: 5px;
+            }
+            
+            .number-line-item {
+                width: 40px;
+                height: 40px;
+                font-size: 1em;
+            }
+            
+            .comparison-display {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .comparison-number {
+                font-size: 2em;
+            }
+            
+            .comparison-symbol {
+                font-size: 3em;
+            }
+            
+            .scroll-to-top {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-container">
+        <button class="back-button" onclick="goBack()">
+            ← Retour
+        </button>
+        
+        <div class="lesson-header">
+            <h1>🔢 Décomposer et classer les nombres de 10 à 19</h1>
+            <p>Découvre comment décomposer et ranger les nombres de 10 à 19 !</p>
+        </div>
+        
+        <div class="lesson-content">
+            <!-- Introduction -->
+            <div class="section fade-in">
+                <h2>🌟 Les nombres de 10 à 19</h2>
+                <p style="font-size: 1.2em; text-align: center; color: #333;">
+                    Tous ces nombres ont quelque chose en commun : ils commencent par <span class="highlight-tens">1 dizaine</span> !
+                </p>
+                <div class="number-line" id="numberLine">
+                    <!-- Les nombres seront générés par JavaScript -->
+                </div>
+                <div class="number-display" id="selectedNumber">
+                    Clique sur un nombre !
+                </div>
+            </div>
+            
+            <!-- Progression -->
+            <div class="progress-indicator">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <!-- Décomposition -->
+            <div class="section">
+                <h2>🧩 Décomposer les nombres</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #333;">
+                    Chaque nombre de 10 à 19 se décompose en <span class="highlight-tens">10</span> + <span class="highlight-units">unités</span>
+                </p>
+                <div id="decompositionDisplay"></div>
+                <div class="interactive-buttons">
+                    <button class="btn" onclick="decomposeNumber(12)">12</button>
+                    <button class="btn" onclick="decomposeNumber(15)">15</button>
+                    <button class="btn" onclick="decomposeNumber(17)">17</button>
+                    <button class="btn" onclick="decomposeNumber(19)">19</button>
+                </div>
+            </div>
+            
+            <!-- Représentation visuelle -->
+            <div class="section examples-section">
+                <h2>👀 Voir la décomposition</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #333;">
+                    Regarde comment chaque nombre est formé !
+                </p>
+                <div id="visualDecomposition"></div>
+                <div class="interactive-buttons">
+                    <button class="btn" onclick="showVisualDecomposition(11)">11</button>
+                    <button class="btn" onclick="showVisualDecomposition(14)">14</button>
+                    <button class="btn" onclick="showVisualDecomposition(16)">16</button>
+                    <button class="btn" onclick="showVisualDecomposition(18)">18</button>
+                </div>
+            </div>
+            
+            <!-- Classification -->
+            <div class="section classification-section">
+                <h2>📊 Classer et comparer</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #333;">
+                    Apprends à comparer et ranger les nombres de 10 à 19 !
+                </p>
+                <div id="comparisonDisplay"></div>
+                <div class="interactive-buttons">
+                    <button class="btn" onclick="compareNumbers(13, 16)">13 et 16</button>
+                    <button class="btn" onclick="compareNumbers(11, 19)">11 et 19</button>
+                    <button class="btn" onclick="compareNumbers(15, 12)">15 et 12</button>
+                    <button class="btn" onclick="compareNumbers(17, 17)">17 et 17</button>
+                </div>
+            </div>
+            
+            <!-- Ranger dans l'ordre -->
+            <div class="section practice-section">
+                <h2>🎯 Ranger dans l'ordre</h2>
+                <p style="text-align: center; font-size: 1.2em; color: #333;">
+                    Clique sur "Mélanger" puis "Ranger" pour voir l'ordre croissant !
+                </p>
+                <div class="classification-grid" id="orderingGrid"></div>
+                <div class="interactive-buttons">
+                    <button class="btn" onclick="shuffleNumbers()">🔀 Mélanger</button>
+                    <button class="btn" onclick="sortNumbers()">📈 Ranger</button>
+                    <button class="sound-button" onclick="readOrderedNumbers()">🔊 Lire l'ordre</button>
+                </div>
+            </div>
+            
+            <!-- Mémorisation -->
+            <div class="section memory-section">
+                <h2>🧠 À retenir</h2>
+                <div class="number-card">
+                    <h3 style="text-align: center; color: #333;">Points clés :</h3>
+                    <ul style="font-size: 1.2em; color: #333;">
+                        <li>Tous les nombres de 10 à 19 ont <span class="highlight-tens">1 dizaine</span></li>
+                        <li>10 = 10 + 0 (pas d'unité)</li>
+                        <li>11 = 10 + 1, 12 = 10 + 2, etc.</li>
+                        <li>Plus le nombre d'unités est grand, plus le nombre est grand</li>
+                        <li>Pour comparer : on regarde les unités (10 &lt; 11 &lt; 12 &lt; ... &lt; 19)</li>
+                    </ul>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button class="sound-button" onclick="reciteRules()">🔊 Réciter les règles</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Activité finale -->
+            <div class="section">
+                <h2>🎮 À ton tour !</h2>
+                <div style="text-align: center; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <p style="font-size: 1.3em; color: #333;">Maintenant que tu sais décomposer et classer les nombres de 10 à 19, teste tes connaissances !</p>
+                    <div class="interactive-buttons">
+                        <a href="../quiz/quiz-decomposer_10_19.html" class="btn">Faire le quiz</a>
+                        <a href="../libre/libre-decomposer_10_19.html" class="btn">Questions libres</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
+        ↑
+    </button>
+    <link rel="stylesheet" href="../../../../../../version.css">
+<script src="../../../../../../version.js"></script>
+<link rel="stylesheet" href="../../../../../../news.css">
+<script src="../../../../../../news.js"></script>
+
+    <script>
+        let currentProgress = 0;
+        let currentNumbers = [];
+        
+        const detailedExamples = [
+            { number: 10, decomposition: "10 + 0", description: "dix" },
+            { number: 13, decomposition: "10 + 3", description: "treize" },
+            { number: 16, decomposition: "10 + 6", description: "seize" },
+            { number: 19, decomposition: "10 + 9", description: "dix-neuf" }
+        ];
+
+        function updateProgress() {
+            currentProgress += 10;
+            if (currentProgress > 100) currentProgress = 100;
+            document.getElementById('progressBar').style.width = currentProgress + '%';
+        }
+
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleScrollButton() {
+            const scrollButton = document.getElementById('scrollToTop');
+            if (window.pageYOffset > 300) {
+                scrollButton.classList.add('visible');
+            } else {
+                scrollButton.classList.remove('visible');
+            }
+        }
+
+        function initializeNumberLine() {
+            const numberLine = document.getElementById('numberLine');
+            for (let i = 10; i <= 19; i++) {
+                const item = document.createElement('div');
+                item.className = 'number-line-item';
+                item.textContent = i;
+                item.onclick = () => selectNumber(i);
+                numberLine.appendChild(item);
+            }
+        }
+
+        function selectNumber(number) {
+            // Réinitialiser tous les éléments
+            document.querySelectorAll('.number-line-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Activer l'élément sélectionné
+            document.querySelectorAll('.number-line-item').forEach(item => {
+                if (item.textContent == number) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Afficher le nombre sélectionné
+            document.getElementById('selectedNumber').textContent = number;
+            
+            // Décomposer automatiquement
+            decomposeNumber(number);
+            
+            speakNumber(number);
+        }
+
+        function decomposeNumber(number) {
+            const units = number - 10;
+            const container = document.getElementById('decompositionDisplay');
+            
+            container.innerHTML = `
+                <div class="number-card fade-in">
+                    <div class="equation-display">
+                        ${number} = <span class="highlight-tens">10</span> + <span class="highlight-units">${units}</span>
+                    </div>
+                    <div style="text-align: center; margin: 10px 0;">
+                        <p style="font-size: 1.3em; color: #333;">
+                            ${number} c'est <span class="highlight-tens">une dizaine</span> et <span class="highlight-units">${units} unité${units > 1 ? 's' : ''}</span>
+                        </p>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="sound-button" onclick="speakDecomposition(${number}, ${units})">
+                            🔊 Écouter la décomposition
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            updateProgress();
+        }
+
+        function showVisualDecomposition(number) {
+            const units = number - 10;
+            const container = document.getElementById('visualDecomposition');
+            
+            container.innerHTML = `
+                <div class="number-representation fade-in">
+                    <div class="tens-group">
+                        <h3 style="color: #ff6b6b;">1 dizaine</h3>
+                        <div class="tens-blocks">
+                            <div class="tens-block"></div>
+                        </div>
+                        <p style="font-weight: bold; color: #333;">1 × 10 = 10</p>
+                    </div>
+                    <div class="units-group">
+                        <h3 style="color: #4ecdc4;">${units} unité${units > 1 ? 's' : ''}</h3>
+                        <div class="units-blocks">
+                            ${Array(units).fill().map((_, i) => `<div class="unit-block" style="animation-delay: ${i * 0.1}s"></div>`).join('')}
+                        </div>
+                        <p style="font-weight: bold; color: #333;">${units} × 1 = ${units}</p>
+                    </div>
+                    <div class="number-display">
+                        <span class="highlight-tens">1</span><span class="highlight-units">${units}</span>
+                    </div>
+                </div>
+            `;
+            
+            speakDecomposition(number, units);
+        }
+
+        function compareNumbers(num1, num2) {
+            let symbol, result, color;
+            
+            if (num1 < num2) {
+                symbol = '<';
+                result = `${num1} est plus petit que ${num2}`;
+                color = '#4ecdc4';
+            } else if (num1 > num2) {
+                symbol = '>';
+                result = `${num1} est plus grand que ${num2}`;
+                color = '#ff6b6b';
+            } else {
+                symbol = '=';
+                result = `${num1} est égal à ${num2}`;
+                color = '#ffeaa7';
+            }
+            
+            const container = document.getElementById('comparisonDisplay');
+            container.innerHTML = `
+                <div class="comparison-display fade-in">
+                    <div class="comparison-number">${num1}</div>
+                    <div class="comparison-symbol" style="color: ${color}">${symbol}</div>
+                    <div class="comparison-number">${num2}</div>
+                </div>
+                <div class="number-card">
+                    <p style="font-size: 1.3em; text-align: center; color: #333;">
+                        ${result}
+                    </p>
+                    <div style="text-align: center;                       
+                        <button class="sound-button" onclick="speakComparison(${num1}, '${symbol}', ${num2})">
+                            🔊 Écouter la comparaison
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function shuffleNumbers() {
+            currentNumbers = [];
+            while (currentNumbers.length < 6) {
+                const rand = Math.floor(Math.random() * 10) + 10;
+                if (!currentNumbers.includes(rand)) {
+                    currentNumbers.push(rand);
+                }
+            }
+            renderOrderingGrid();
+        }
+
+        function sortNumbers() {
+            currentNumbers.sort((a, b) => a - b);
+            renderOrderingGrid();
+            updateProgress();
+        }
+
+        function renderOrderingGrid() {
+            const grid = document.getElementById("orderingGrid");
+            grid.innerHTML = "";
+            currentNumbers.forEach((number) => {
+                const item = document.createElement("div");
+                item.className = "classification-item";
+                item.textContent = number;
+                grid.appendChild(item);
+            });
+        }
+
+        function readOrderedNumbers() {
+            if (currentNumbers.length === 0) return;
+            const sentence = "L'ordre est : " + currentNumbers.join(", ");
+            speak(sentence);
+        }
+
+        function reciteRules() {
+            const rules = "Tous les nombres de 10 à 19 ont une dizaine. Dix c'est dix plus zéro. Onze c'est dix plus un. Plus il y a d'unités, plus le nombre est grand.";
+            speak(rules);
+        }
+
+        function speakNumber(number) {
+            speak(`Tu as sélectionné le nombre ${number}`);
+        }
+
+        function speakDecomposition(number, units) {
+            const unitText = units === 0 ? "zéro" : units;
+            const phrase = `${number} c'est dix plus ${unitText}`;
+            speak(phrase);
+        }
+
+        function speakComparison(num1, symbol, num2) {
+            let phrase = "";
+            if (symbol === "<") {
+                phrase = `${num1} est plus petit que ${num2}`;
+            } else if (symbol === ">") {
+                phrase = `${num1} est plus grand que ${num2}`;
+            } else {
+                phrase = `${num1} est égal à ${num2}`;
+            }
+            speak(phrase);
+        }
+
+        function speak(text) {
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "fr-FR";
+            synth.speak(utterance);
+        }
+
+        window.addEventListener("scroll", toggleScrollButton);
+        window.addEventListener("load", () => {
+            initializeNumberLine();
+            shuffleNumbers();
+        });
+    </script>
+</body>
+</html>
